@@ -1,5 +1,3 @@
-console.log('JS testing 1..2..3..');
-
 const qwerty = document.getElementById('qwerty');
 const phrase = document.getElementById('phrase');
 const btnReset = document.querySelector('.btn__reset');
@@ -51,10 +49,10 @@ function addPhraseToDisplay(arr){
             }
             console.log(li.textContent);
     }
-}
-    
+}   
 addPhraseToDisplay(getRandomPhraseAsArray(phrases));
  
+//To check matching letters
 function checkLetter(button){
     const checkLetter = document.querySelectorAll('li');
     let match = null;
@@ -71,7 +69,6 @@ function checkLetter(button){
 qwerty.addEventListener('click', (e)=>{
     if (e.target.tagName === 'BUTTON'){
         e.target.className += 'chosen';
-        console.log(`a key has been clicked! ${e.target.textContent} with the classname ${e.target.className}`); //testing code
     }
 
     let letterFound = checkLetter(e.target);
