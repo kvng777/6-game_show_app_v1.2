@@ -47,7 +47,6 @@ function addPhraseToDisplay(arr){
             } else {
                 li.className = "letter";
             }
-            console.log(li.textContent);
     }
 }   
 addPhraseToDisplay(getRandomPhraseAsArray(phrases));
@@ -72,7 +71,7 @@ qwerty.addEventListener('click', (e)=>{
     }
 
     let letterFound = checkLetter(e.target);
-       if (letterFound === null){
+       if (letterFound === null && e.target.tagName === 'BUTTON'){
         const ol = document.querySelector('#scoreboard > ol');
         missed++;
         ol.removeChild(ol.lastElementChild);          
