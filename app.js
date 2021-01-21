@@ -13,29 +13,26 @@ let phrasescaps = [
 
 const phrases = phrasescaps.map(name => name.toLowerCase());
 
-
 //event handler to hide the overlay
 const overlay = document.getElementById('overlay');
+
 btnReset.addEventListener('click',()=>{
     if(overlay.className ==='win' || overlay.className ==='lose'){
-        location.reload();
-    } else{
+        location.reload();     
+    }else{
         overlay.style.display ='none';
     }
-    
 });
-
 
 //function to get a random phrase
 function getRandomPhraseAsArray(arr){    
     let randomNum = Math.floor(Math.random() * phrases.length);
     return phrases[randomNum];
 }
-
 getRandomPhraseAsArray(phrases);
 
     
-//function to display the random phrase selected
+// function to display the random phrase selected
 function addPhraseToDisplay(arr){    
     for (let i=0; i<arr.length; i++) {
         const li = document.createElement('LI');
@@ -52,34 +49,37 @@ function addPhraseToDisplay(arr){
 addPhraseToDisplay(getRandomPhraseAsArray(phrases));
  
 //To check matching letters
-function checkLetter(button){
-    const checkLetter = document.querySelectorAll('li');
+function checkLetter(keyClicked){
+    const checkLetter = document.querySelectorAll('.letter');
     let match = null;
 
     for (let i=0; i<checkLetter.length; i++){
-        if(button.textContent == checkLetter[i].textContent){
-            checkLetter[i].className += " show";
-            match= button.text;
+        if(keyClicked === checkLetter[i].textContent){
+            checkLetter[i].className += ' show';
+            match= checkLetter[i].textContent;
         }
     }
     return match;   
 }
-    
-qwerty.addEventListener('click', (e)=>{
-    if (e.target.tagName === 'BUTTON'){
-        e.target.className += 'chosen';
-    }
 
-    let letterFound = checkLetter(e.target);
-       if (letterFound === null && e.target.tagName === 'BUTTON'){
-        const ol = document.querySelector('#scoreboard > ol');
-        missed++;
-        ol.removeChild(ol.lastElementChild);          
-            if (e.target.className =='chosen'){
-                e.target.disabled = 'true'; 
-            }
+qwerty.addEventListener('click', (e)=>{
+    const clickedBtn = e.target;
+    let lostHeartSrc = "images/lostHeart.png";
+
+    if (clickedBtn.tagName === 'BUTTON'){
+        clickedBtn.className = 'chosen';
+        clickedBtn.disabled = 'true';
+    
+        let letterFound = checkLetter(clickedBtn.textContent);
+        if (letterFound === null){
+            const tries = document.querySelectorAll('.tries');
+            const heartImg = document.querySelectorAll('.tries img');
+            missed++;
+            heartImg[0].src = lostHeartSrc;
+            tries[0].className = ' ';
         }
-        checkWin();    
+    checkWin();    
+    }
 });
 
 function checkWin(){
@@ -91,9 +91,12 @@ function checkWin(){
         overlay.className = 'win';
         h2.textContent = 'Congrats you win!';
         overlay.style.display = 'flex';
+        btnReset.textContent ="Try Again";
     } else if (missed > 4){
         overlay.className = 'lose';
-        h2.textContent = 'You lost!!';
+        h2.textContent = 'You lost!';
         overlay.style.display = 'flex';
+        btnReset.textContent ="Try Again";
     }
 }
+
